@@ -2,9 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/smart-buy/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>smart-buy</title>
+    <title>Omniva SmartBuy</title>
+    <script>
+      // Restore path after GitHub Pages 404 redirect
+      var redirect = sessionStorage.getItem('spa-redirect');
+      if (redirect) {
+        sessionStorage.removeItem('spa-redirect');
+        if (redirect !== '/smart-buy/' && redirect !== '/smart-buy') {
+          history.replaceState(null, null, redirect);
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

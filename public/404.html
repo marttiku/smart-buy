@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    // GitHub Pages SPA redirect: forward path to index.html via sessionStorage
+    var l = window.location;
+    sessionStorage.setItem('spa-redirect', l.pathname + l.search + l.hash);
+    l.replace(l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + '/smart-buy/');
+  </script>
+</head>
+<body></body>
+</html>

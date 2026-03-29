@@ -37,7 +37,7 @@ function AppShell() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/smart-buy/">
       <AppProvider>
         <AppShell />
       </AppProvider>
