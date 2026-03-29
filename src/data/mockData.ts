@@ -1,0 +1,175 @@
+export interface Product {
+  id: string
+  name: string
+  brand: string
+  category: string
+  categoryId: string
+  currentPrice: number
+  originalPrice: number
+  buyerCount: number
+  demandPercent: number
+  deliveryDays: number
+  icon: string
+  specs: string[]
+}
+
+export interface Order {
+  id: string
+  productId: string
+  productName: string
+  lockedPrice: number
+  finalPrice: number | null
+  creditEarned: number
+  status: 'active' | 'completed' | 'won'
+  buyerCount: number
+  createdAt: Date
+  windowEndsAt: Date
+}
+
+export interface Notification {
+  id: string
+  type: 'win' | 'demand' | 'delivery' | 'info'
+  title: string
+  body: string
+  credit?: number
+  read: boolean
+  createdAt: Date
+}
+
+export interface Category {
+  id: string
+  name: string
+  icon: string
+  buyersActive: number
+  available: boolean
+  featured?: boolean
+}
+
+export const categories: Category[] = [
+  { id: 'electronics', name: 'Electronics', icon: '📱', buyersActive: 47, available: true, featured: true },
+  { id: 'appliances', name: 'Home Appliances', icon: '🏠', buyersActive: 23, available: true },
+  { id: 'seasonal', name: 'Seasonal', icon: '🌡️', buyersActive: 0, available: false },
+  { id: 'fashion', name: 'Fashion', icon: '👕', buyersActive: 0, available: false },
+]
+
+export const products: Product[] = [
+  {
+    id: 'p1',
+    name: 'iPhone 15 Pro 128GB',
+    brand: 'Apple',
+    category: 'Electronics',
+    categoryId: 'electronics',
+    currentPrice: 1199,
+    originalPrice: 1299,
+    buyerCount: 34,
+    demandPercent: 72,
+    deliveryDays: 2,
+    icon: '📱',
+    specs: ['6.1" Super Retina XDR', 'A17 Pro chip', '48MP camera', '128GB storage'],
+  },
+  {
+    id: 'p2',
+    name: 'Samsung Galaxy S24 256GB',
+    brand: 'Samsung',
+    category: 'Electronics',
+    categoryId: 'electronics',
+    currentPrice: 849,
+    originalPrice: 999,
+    buyerCount: 21,
+    demandPercent: 55,
+    deliveryDays: 2,
+    icon: '📱',
+    specs: ['6.2" Dynamic AMOLED', 'Snapdragon 8 Gen 3', '50MP camera', '256GB storage'],
+  },
+  {
+    id: 'p3',
+    name: 'AirPods Pro 2nd Gen',
+    brand: 'Apple',
+    category: 'Electronics',
+    categoryId: 'electronics',
+    currentPrice: 249,
+    originalPrice: 279,
+    buyerCount: 58,
+    demandPercent: 88,
+    deliveryDays: 1,
+    icon: '🎧',
+    specs: ['Active Noise Cancellation', 'Adaptive Audio', 'USB-C charging', '30h battery'],
+  },
+  {
+    id: 'p4',
+    name: 'MacBook Air M3 13"',
+    brand: 'Apple',
+    category: 'Electronics',
+    categoryId: 'electronics',
+    currentPrice: 1299,
+    originalPrice: 1449,
+    buyerCount: 15,
+    demandPercent: 38,
+    deliveryDays: 3,
+    icon: '💻',
+    specs: ['M3 chip', '8GB RAM', '256GB SSD', '18h battery'],
+  },
+  {
+    id: 'p5',
+    name: 'Sony WH-1000XM5',
+    brand: 'Sony',
+    category: 'Electronics',
+    categoryId: 'electronics',
+    currentPrice: 329,
+    originalPrice: 379,
+    buyerCount: 29,
+    demandPercent: 61,
+    deliveryDays: 2,
+    icon: '🎧',
+    specs: ['Industry-leading ANC', '30h battery', 'Hi-Res Audio', 'Multipoint connection'],
+  },
+]
+
+const now = new Date()
+const windowEnds = new Date(now.getTime() + 10 * 60 * 60 * 1000) // 10h from now
+const pastWindow = new Date(now.getTime() - 2 * 60 * 60 * 1000) // 2h ago
+
+export const initialOrders: Order[] = [
+  {
+    id: 'o1',
+    productId: 'p3',
+    productName: 'AirPods Pro 2nd Gen',
+    lockedPrice: 249,
+    finalPrice: 246.50,
+    creditEarned: 2.50,
+    status: 'won',
+    buyerCount: 58,
+    createdAt: new Date(now.getTime() - 3 * 60 * 60 * 1000),
+    windowEndsAt: pastWindow,
+  },
+]
+
+export const initialNotifications: Notification[] = [
+  {
+    id: 'n1',
+    type: 'win',
+    title: 'Price improved!',
+    body: 'Your AirPods Pro order — price dropped by €2.50',
+    credit: 2.50,
+    read: false,
+    createdAt: new Date(now.getTime() - 30 * 60 * 1000),
+  },
+  {
+    id: 'n2',
+    type: 'demand',
+    title: '12 buyers joined your pool',
+    body: 'iPhone 15 Pro is gaining demand — price may improve.',
+    read: false,
+    createdAt: new Date(now.getTime() - 2 * 60 * 60 * 1000),
+  },
+  {
+    id: 'n3',
+    type: 'delivery',
+    title: 'Order delivered',
+    body: 'Your AirPods Pro have been delivered to parcel locker P-234.',
+    read: true,
+    createdAt: new Date(now.getTime() - 5 * 60 * 60 * 1000),
+  },
+]
+
+export { windowEnds }
