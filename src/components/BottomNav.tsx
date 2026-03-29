@@ -1,10 +1,11 @@
 import { Home, ShoppingBag, Wallet, Bell } from 'lucide-react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useApp } from '../store/appStore'
 
 export default function BottomNav() {
   const { unreadCount, orders } = useApp()
   const location = useLocation()
+  const navigate = useNavigate()
   const activeOrderCount = orders.filter(o => o.status === 'active').length
 
   const navItems = [
@@ -44,8 +45,8 @@ export default function BottomNav() {
       <button
         onClick={() => {
           const activeOrder = orders.find(o => o.status === 'active')
-          if (activeOrder) window.location.href = `/order/${activeOrder.id}`
-          else window.location.href = '/dashboard'
+          if (activeOrder) navigate(`/order/${activeOrder.id}`)
+          else navigate('/dashboard')
         }}
         className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium transition-colors ${
           isOrdersActive ? 'text-indigo-400' : 'text-gray-400 hover:text-gray-100'
