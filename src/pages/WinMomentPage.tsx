@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Trophy, Wallet, ArrowRight } from 'lucide-react'
 import { useApp } from '../store/appStore'
 import WinAnimation from '../components/WinAnimation'
-import { OmnivaSymbol } from '../components/OmnivaLogo'
+import { OmnivaSymbol, PoweredByOmniva } from '../components/OmnivaLogo'
 import TrackingCard from '../components/TrackingCard'
 
 export default function WinMomentPage() {
@@ -120,6 +120,7 @@ export default function WinMomentPage() {
         >
           Shop again
         </button>
+        <PoweredByOmniva className="mt-2" />
       </div>
     </div>
   )

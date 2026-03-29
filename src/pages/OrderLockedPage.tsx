@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { Check, Home, Sparkles, Share2, Copy, Check as CheckIcon, Users, Gift } from 'lucide-react'
-import { OmnivaSymbol } from '../components/OmnivaLogo'
+import { OmnivaSymbol, PoweredByOmniva } from '../components/OmnivaLogo'
 import { useEffect, useState } from 'react'
 import { useApp } from '../store/appStore'
 import DemandBar from '../components/DemandBar'
@@ -254,7 +254,7 @@ export default function OrderLockedPage() {
       </div>
 
       {/* Actions */}
-      <div className="flex gap-3 pb-4">
+      <div className="flex gap-3 pb-2">
         <button
           onClick={() => navigate('/')}
           className="flex-1 flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-gray-100 font-medium rounded-xl py-3 text-sm transition-colors"
@@ -269,6 +269,8 @@ export default function OrderLockedPage() {
           Browse more
         </button>
       </div>
+
+      <PoweredByOmniva className="pb-4" />
     </div>
   )
 }

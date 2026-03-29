@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Lock, Truck, ChevronDown, ChevronUp, TrendingDown, Zap, Clock, Calendar } from 'lucide-react'
-import { OmnivaSymbol } from '../components/OmnivaLogo'
+import { OmnivaSymbol, PoweredByOmniva } from '../components/OmnivaLogo'
 import { useEffect, useState, useMemo } from 'react'
 import { products } from '../data/mockData'
 import DemandBar from '../components/DemandBar'
@@ -307,7 +307,10 @@ export default function ProductPage() {
             </>
           )}
         </button>
-        <p className="text-center text-xs text-gray-500 mt-2">No downside. Only upside.</p>
+        <div className="flex items-center justify-between mt-2 px-1">
+          <p className="text-xs text-gray-500">No downside. Only upside.</p>
+          <PoweredByOmniva />
+        </div>
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ import { categories } from '../data/mockData'
 import { useApp } from '../store/appStore'
 import OrderCard from '../components/OrderCard'
 import SearchBar from '../components/SearchBar'
-import OmnivaLogo from '../components/OmnivaLogo'
+import OmnivaLogo, { PoweredByOmniva } from '../components/OmnivaLogo'
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -116,9 +116,9 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Footer tagline */}
-      <div className="px-5 pb-4 text-center">
-        <p className="text-xs text-gray-600">Powered by Omniva logistics network</p>
+      {/* Footer */}
+      <div className="px-5 pb-4">
+        <PoweredByOmniva />
       </div>
     </div>
   )

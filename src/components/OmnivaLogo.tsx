@@ -37,6 +37,20 @@ interface OmnivaLogoProps {
   className?: string
 }
 
+/** Inline "Powered by Omniva logistics" trust badge */
+export function PoweredByOmniva({ className = '' }: { className?: string }) {
+  return (
+    <div className={`flex items-center justify-center gap-1.5 ${className}`}>
+      <OmnivaSymbol size={14} />
+      <span className="text-xs text-gray-500">
+        Powered by{' '}
+        <span className="font-semibold" style={{ color: '#FF5E00' }}>Omniva</span>
+        {' '}logistics
+      </span>
+    </div>
+  )
+}
+
 /** Full Omniva SmartBuy lockup: symbol + "omniva" wordmark + "SmartBuy" sub-brand */
 export default function OmnivaLogo({ variant = 'full', symbolSize = 36, className = '' }: OmnivaLogoProps) {
   if (variant === 'symbol') {
