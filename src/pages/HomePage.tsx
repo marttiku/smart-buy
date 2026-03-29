@@ -3,6 +3,7 @@ import { ChevronRight, Zap, Lock, TrendingDown } from 'lucide-react'
 import { categories } from '../data/mockData'
 import { useApp } from '../store/appStore'
 import OrderCard from '../components/OrderCard'
+import SearchBar from '../components/SearchBar'
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -35,6 +36,9 @@ export default function HomePage() {
           )}
         </div>
       </div>
+
+      {/* Search */}
+      <SearchBar />
 
       {/* How it works — strip */}
       <div className="px-5 mb-5">
