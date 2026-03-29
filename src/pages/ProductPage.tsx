@@ -1,10 +1,58 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Lock, Truck, ChevronDown, ChevronUp, TrendingDown, Shield, Zap } from 'lucide-react'
+import { ArrowLeft, Lock, Truck, ChevronDown, ChevronUp, TrendingDown, Zap, Clock, Calendar } from 'lucide-react'
 import { OmnivaSymbol } from '../components/OmnivaLogo'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { products } from '../data/mockData'
 import DemandBar from '../components/DemandBar'
 import { useApp } from '../store/appStore'
+
+function useCommitCountdown(windowHours = 4) {
+  // Pool window resets every `windowHours` hours — shows time left to join current pool
+  const endsAt = useMemo(() => {
+    const now = new Date()
+    const msInWindow = windowHours * 60 * 60 * 1000
+    const elapsed = now.getTime() % msInWindow
+    return new Date(now.getTime() + (msInWindow - elapsed))
+  }, [windowHours])
+
+  const [remaining, setRemaining] = useState(0)
+
+  useEffect(() => {
+    const calc = () => Math.max(0, Math.floor((endsAt.getTime() - Date.now()) / 1000))
+    setRemaining(calc())
+    const id = setInterval(() => setRemaining(calc()), 1000)
+    return () => clearInterval(id)
+  }, [endsAt])
+
+  const h = Math.floor(remaining / 3600)
+  const m = Math.floor((remaining % 3600) / 60)
+  const s = remaining % 60
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return { display: `${pad(h)}:${pad(m)}:${pad(s)}`, isUrgent: remaining < 1800, remaining }
+}
+
+function getDeliveryRange(deliveryDays: number) {
+  const earliest = new Date()
+  earliest.setDate(earliest.getDate() + deliveryDays)
+  const latest = new Date()
+  latest.setDate(latest.getDate() + deliveryDays + 1)
+
+  const fmt = (d: Date) => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
+
+  // Skip weekends for "business days" estimate
+  const skipWeekends = (d: Date, days: number) => {
+    let added = 0
+    const result = new Date(d)
+    while (added < days) {
+      result.setDate(result.getDate() + 1)
+      if (result.getDay() !== 0 && result.getDay() !== 6) added++
+    }
+    return result
+  }
+
+  const estDate = skipWeekends(new Date(), deliveryDays)
+  return { label: fmt(estDate), date: estDate }
+}
 
 export default function ProductPage() {
   const { id } = useParams()
@@ -16,6 +64,8 @@ export default function ProductPage() {
   const [demandPercent, setDemandPercent] = useState(product?.demandPercent ?? 0)
   const [howItWorksOpen, setHowItWorksOpen] = useState(false)
   const [placing, setPlacing] = useState(false)
+  const countdown = useCommitCountdown(4)
+  const delivery = product ? getDeliveryRange(product.deliveryDays) : null
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -71,9 +121,12 @@ export default function ProductPage() {
           <div>
             <p className="text-xs text-gray-500 mb-0.5">{product.brand}</p>
             <h1 className="text-lg font-bold text-gray-100 leading-tight">{product.name}</h1>
-            <div className="flex items-center gap-1.5 mt-1">
-              <Truck className="w-3.5 h-3.5 text-gray-500" />
-              <span className="text-xs text-gray-500">Omniva delivery in {product.deliveryDays}d</span>
+            <div className="flex items-center gap-1.5 mt-1.5">
+              <Truck className="w-3.5 h-3.5 text-[#FF5E00]" />
+              <span className="text-xs text-gray-400">
+                Omniva delivery by{' '}
+                <span className="font-semibold text-gray-200">{delivery?.label}</span>
+              </span>
             </div>
           </div>
         </div>
@@ -85,6 +138,31 @@ export default function ProductPage() {
               {spec}
             </span>
           ))}
+        </div>
+
+        {/* Commit window + delivery at a glance */}
+        <div className="grid grid-cols-2 gap-2 mb-4">
+          {/* Pool window countdown */}
+          <div className={`bg-gray-900 border rounded-xl px-3 py-3 ${countdown.isUrgent ? 'border-orange-500/40' : 'border-gray-800'}`}>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <Clock className={`w-3.5 h-3.5 ${countdown.isUrgent ? 'text-orange-400' : 'text-indigo-400'}`} />
+              <span className="text-xs text-gray-500">Pool closes in</span>
+            </div>
+            <p className={`font-mono font-bold text-xl tabular-nums ${countdown.isUrgent ? 'text-orange-400' : 'text-gray-100'}`}>
+              {countdown.display}
+            </p>
+            <p className="text-xs text-gray-600 mt-0.5">to join this window</p>
+          </div>
+
+          {/* Delivery date */}
+          <div className="bg-gray-900 border border-gray-800 rounded-xl px-3 py-3">
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <Calendar className="w-3.5 h-3.5 text-[#FF5E00]" />
+              <span className="text-xs text-gray-500">Delivered by</span>
+            </div>
+            <p className="font-semibold text-gray-100 text-sm leading-tight">{delivery?.label}</p>
+            <p className="text-xs text-gray-600 mt-0.5">Omniva {product.deliveryDays}d shipping</p>
+          </div>
         </div>
 
         {/* Price card */}
@@ -150,10 +228,12 @@ export default function ProductPage() {
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Shield className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" />
+              <Truck className="w-4 h-4 text-[#FF5E00] flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-sm font-medium text-gray-200">Omniva guaranteed delivery</p>
-                <p className="text-xs text-gray-500">Delivered within {product.deliveryDays} business days</p>
+                <p className="text-xs text-gray-500">
+                  By <span className="text-gray-300 font-medium">{delivery?.label}</span> · {product.deliveryDays} business day{product.deliveryDays > 1 ? 's' : ''}
+                </p>
               </div>
             </div>
           </div>
@@ -195,6 +275,21 @@ export default function ProductPage() {
 
       {/* Fixed CTA */}
       <div className="fixed bottom-16 left-1/2 -translate-x-1/2 w-full max-w-[390px] px-5 pb-4 bg-gradient-to-t from-gray-950 via-gray-950/90 to-transparent pt-6">
+        {/* Urgency strip */}
+        <div className={`flex items-center justify-between mb-2 px-1 ${countdown.isUrgent ? 'opacity-100' : 'opacity-70'}`}>
+          <div className="flex items-center gap-1.5">
+            <Clock className={`w-3.5 h-3.5 ${countdown.isUrgent ? 'text-orange-400' : 'text-gray-500'}`} />
+            <span className={`text-xs font-medium ${countdown.isUrgent ? 'text-orange-400' : 'text-gray-500'}`}>
+              {countdown.isUrgent ? 'Pool closing soon — ' : 'Pool open — '}
+              <span className="font-mono">{countdown.display}</span> left
+            </span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Truck className="w-3.5 h-3.5 text-[#FF5E00]" />
+            <span className="text-xs text-gray-500">by <span className="text-gray-300">{delivery?.label}</span></span>
+          </div>
+        </div>
+
         <button
           onClick={handleBuy}
           disabled={placing}
