@@ -3,6 +3,7 @@ import { Trophy, Wallet, ArrowRight } from 'lucide-react'
 import { useApp } from '../store/appStore'
 import WinAnimation from '../components/WinAnimation'
 import { OmnivaSymbol } from '../components/OmnivaLogo'
+import TrackingCard from '../components/TrackingCard'
 
 export default function WinMomentPage() {
   const { id } = useParams()
@@ -84,7 +85,7 @@ export default function WinMomentPage() {
       </div>
 
       {/* Credit balance */}
-      <div className="relative z-10 w-full bg-gray-900 border border-gray-800 rounded-xl p-4 mb-6 animate-slide-up-2">
+      <div className="relative z-10 w-full bg-gray-900 border border-gray-800 rounded-xl p-4 mb-5 animate-slide-up-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Wallet className="w-4 h-4 text-indigo-400" />
@@ -93,6 +94,17 @@ export default function WinMomentPage() {
           <span className="text-lg font-bold text-indigo-400">€{creditBalance.toFixed(2)}</span>
         </div>
       </div>
+
+      {/* Delivery tracking */}
+      {order.tracking && order.parcelCode && order.estimatedDelivery && (
+        <div className="relative z-10 w-full mb-5 animate-slide-up-2">
+          <TrackingCard
+            parcelCode={order.parcelCode}
+            estimatedDelivery={order.estimatedDelivery}
+            steps={order.tracking}
+          />
+        </div>
+      )}
 
       {/* CTA */}
       <div className="relative z-10 w-full flex flex-col gap-3">

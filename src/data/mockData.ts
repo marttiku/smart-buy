@@ -13,6 +13,22 @@ export interface Product {
   specs: string[]
 }
 
+export type TrackingStatus =
+  | 'confirmed'
+  | 'processing'
+  | 'handed_over'
+  | 'in_transit'
+  | 'out_for_delivery'
+  | 'delivered'
+
+export interface TrackingStep {
+  status: TrackingStatus
+  label: string
+  detail: string
+  timestamp: Date | null
+  done: boolean
+}
+
 export interface Order {
   id: string
   productId: string
@@ -24,6 +40,9 @@ export interface Order {
   buyerCount: number
   createdAt: Date
   windowEndsAt: Date
+  tracking?: TrackingStep[]
+  parcelCode?: string
+  estimatedDelivery?: Date
 }
 
 export interface Notification {
@@ -239,6 +258,52 @@ export const initialOrders: Order[] = [
     buyerCount: 58,
     createdAt: new Date(now.getTime() - 3 * 60 * 60 * 1000),
     windowEndsAt: pastWindow,
+    parcelCode: 'EA382910471EE',
+    estimatedDelivery: new Date(now.getTime() + 18 * 60 * 60 * 1000),
+    tracking: [
+      {
+        status: 'confirmed',
+        label: 'Order confirmed',
+        detail: 'Price locked at €246.50',
+        timestamp: new Date(now.getTime() - 3 * 60 * 60 * 1000),
+        done: true,
+      },
+      {
+        status: 'processing',
+        label: 'Preparing your order',
+        detail: 'Supplier is packing your item',
+        timestamp: new Date(now.getTime() - 2 * 60 * 60 * 1000),
+        done: true,
+      },
+      {
+        status: 'handed_over',
+        label: 'Handed to Omniva',
+        detail: 'Package scanned at Tallinn sorting centre',
+        timestamp: new Date(now.getTime() - 60 * 60 * 1000),
+        done: true,
+      },
+      {
+        status: 'in_transit',
+        label: 'In transit',
+        detail: 'On the way to your area',
+        timestamp: new Date(now.getTime() - 20 * 60 * 1000),
+        done: true,
+      },
+      {
+        status: 'out_for_delivery',
+        label: 'Out for delivery',
+        detail: 'Expected today by 18:00',
+        timestamp: null,
+        done: false,
+      },
+      {
+        status: 'delivered',
+        label: 'Delivered',
+        detail: 'Parcel locker P-234, Viru Keskus',
+        timestamp: null,
+        done: false,
+      },
+    ],
   },
 ]
 

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
-import { initialOrders, initialNotifications, type Order, type Notification } from '../data/mockData'
+import { initialOrders, initialNotifications, type Order, type Notification, type TrackingStep } from '../data/mockData'
 
 interface AppState {
   orders: Order[]
@@ -29,6 +29,54 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const id = `o${Date.now()}`
     const now = new Date()
     const windowEndsAt = new Date(now.getTime() + 12 * 60 * 60 * 1000)
+    const parcelCode = `EA${Math.floor(300000000 + Math.random() * 99999999)}EE`
+    const estimatedDelivery = new Date(now.getTime() + 30 * 60 * 60 * 1000)
+
+    const tracking: TrackingStep[] = [
+      {
+        status: 'confirmed',
+        label: 'Order confirmed',
+        detail: `Price locked at €${price}`,
+        timestamp: now,
+        done: true,
+      },
+      {
+        status: 'processing',
+        label: 'Preparing your order',
+        detail: 'Supplier is packing your item',
+        timestamp: null,
+        done: false,
+      },
+      {
+        status: 'handed_over',
+        label: 'Handed to Omniva',
+        detail: 'Package scanned at sorting centre',
+        timestamp: null,
+        done: false,
+      },
+      {
+        status: 'in_transit',
+        label: 'In transit',
+        detail: 'On the way to your area',
+        timestamp: null,
+        done: false,
+      },
+      {
+        status: 'out_for_delivery',
+        label: 'Out for delivery',
+        detail: 'Expected by end of next business day',
+        timestamp: null,
+        done: false,
+      },
+      {
+        status: 'delivered',
+        label: 'Delivered',
+        detail: 'To your nearest Omniva parcel locker',
+        timestamp: null,
+        done: false,
+      },
+    ]
+
     const newOrder: Order = {
       id,
       productId,
@@ -40,6 +88,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       buyerCount: 1,
       createdAt: now,
       windowEndsAt,
+      parcelCode,
+      estimatedDelivery,
+      tracking,
     }
     setOrders(prev => [newOrder, ...prev])
     setActiveOrderId(id)
