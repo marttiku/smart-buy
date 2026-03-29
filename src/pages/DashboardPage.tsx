@@ -2,6 +2,7 @@ import { Wallet, Trophy, TrendingDown, ShoppingBag } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useApp } from '../store/appStore'
 import OrderCard from '../components/OrderCard'
+import { OmnivaSymbol } from '../components/OmnivaLogo'
 
 export default function DashboardPage() {
   const navigate = useNavigate()
@@ -15,8 +16,11 @@ export default function DashboardPage() {
     <div>
       {/* Header */}
       <div className="px-5 pt-12 pb-5">
-        <h1 className="text-2xl font-bold text-gray-100">My Credits</h1>
-        <p className="text-sm text-gray-400 mt-0.5">Earned when prices improve</p>
+        <div className="flex items-center justify-between mb-1">
+          <h1 className="text-2xl font-bold text-gray-100">My Credits</h1>
+          <OmnivaSymbol size={24} />
+        </div>
+        <p className="text-sm text-gray-400">Earned when prices improve</p>
       </div>
 
       {/* Credit balance card */}

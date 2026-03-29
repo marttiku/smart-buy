@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Lock, Truck, ChevronDown, ChevronUp, TrendingDown, Shield, Zap } from 'lucide-react'
+import { OmnivaSymbol } from '../components/OmnivaLogo'
 import { useEffect, useState } from 'react'
 import { products } from '../data/mockData'
 import DemandBar from '../components/DemandBar'
@@ -49,13 +50,16 @@ export default function ProductPage() {
     <div>
       {/* Header */}
       <div className="sticky top-0 z-10 bg-gray-950/95 backdrop-blur px-5 pt-12 pb-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-1.5 text-gray-400 hover:text-gray-100 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm">Back</span>
-        </button>
+        <div className="flex items-center justify-between">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-1.5 text-gray-400 hover:text-gray-100 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="text-sm">Back</span>
+          </button>
+          <OmnivaSymbol size={22} />
+        </div>
       </div>
 
       <div className="px-5 pb-32">

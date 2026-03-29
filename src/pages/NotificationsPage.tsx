@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Trophy, Users, Package, Info, Bell } from 'lucide-react'
 import { useApp } from '../store/appStore'
 import type { Notification } from '../data/mockData'
+import { OmnivaSymbol } from '../components/OmnivaLogo'
 
 function timeAgo(date: Date): string {
   const diff = Math.floor((Date.now() - date.getTime()) / 1000)
@@ -67,6 +68,7 @@ export default function NotificationsPage() {
               <p className="text-sm text-indigo-400 mt-0.5">{unreadCount} new</p>
             )}
           </div>
+          <OmnivaSymbol size={24} />
         </div>
       </div>
 

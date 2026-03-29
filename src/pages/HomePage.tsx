@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, Zap, Lock, TrendingDown } from 'lucide-react'
+import { ChevronRight, Lock, TrendingDown } from 'lucide-react'
 import { categories } from '../data/mockData'
 import { useApp } from '../store/appStore'
 import OrderCard from '../components/OrderCard'
 import SearchBar from '../components/SearchBar'
+import OmnivaLogo from '../components/OmnivaLogo'
 
 export default function HomePage() {
   const navigate = useNavigate()
@@ -16,13 +17,7 @@ export default function HomePage() {
       <div className="px-5 pt-12 pb-6 bg-gray-950">
         <div className="flex items-center justify-between mb-1">
           <div>
-            <div className="flex items-center gap-1.5 mb-0.5">
-              <div className="w-5 h-5 bg-indigo-600 rounded flex items-center justify-center">
-                <Zap className="w-3 h-3 text-white" />
-              </div>
-              <span className="text-xs font-semibold text-indigo-400 tracking-wide uppercase">SmartBuy</span>
-            </div>
-            <h1 className="text-2xl font-bold text-gray-100">Shop smarter.</h1>
+            <OmnivaLogo symbolSize={38} className="mb-2" />
             <p className="text-sm text-gray-400 mt-0.5">Lock price. Earn credit if it drops.</p>
           </div>
           {creditBalance > 0 && (

@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Trophy, Wallet, ArrowRight } from 'lucide-react'
 import { useApp } from '../store/appStore'
 import WinAnimation from '../components/WinAnimation'
+import { OmnivaSymbol } from '../components/OmnivaLogo'
 
 export default function WinMomentPage() {
   const { id } = useParams()
@@ -24,6 +25,11 @@ export default function WinMomentPage() {
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-start pt-16 px-5 pb-10 overflow-hidden">
       <WinAnimation />
+
+      {/* Brand mark */}
+      <div className="relative z-10 mb-4">
+        <OmnivaSymbol size={28} />
+      </div>
 
       {/* Trophy icon */}
       <div className="relative z-10 w-20 h-20 bg-yellow-500/15 border-2 border-yellow-500/40 rounded-full flex items-center justify-center mb-5">

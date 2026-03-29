@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { Check, Home, Sparkles, Share2, Copy, Check as CheckIcon, Users, Gift } from 'lucide-react'
+import { OmnivaSymbol } from '../components/OmnivaLogo'
 import { useEffect, useState } from 'react'
 import { useApp } from '../store/appStore'
 import DemandBar from '../components/DemandBar'
@@ -76,8 +77,11 @@ export default function OrderLockedPage() {
 
   return (
     <div className="px-5 pt-14 flex flex-col gap-5">
+      <div className="flex justify-end pt-1">
+        <OmnivaSymbol size={22} />
+      </div>
       {/* Success header */}
-      <div className="flex flex-col items-center text-center pt-4 pb-2">
+      <div className="flex flex-col items-center text-center pb-2">
         <div className="w-16 h-16 bg-green-500/15 border-2 border-green-500/30 rounded-full flex items-center justify-center mb-4">
           <Check className="w-8 h-8 text-green-400 stroke-[2.5]" />
         </div>

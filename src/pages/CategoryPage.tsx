@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Users } from 'lucide-react'
+import { OmnivaSymbol } from '../components/OmnivaLogo'
 import { useEffect, useState } from 'react'
 import { products, categories } from '../data/mockData'
 import ProductCard from '../components/ProductCard'
@@ -40,13 +41,16 @@ export default function CategoryPage() {
     <div>
       {/* Header */}
       <div className="sticky top-0 z-10 bg-gray-950/95 backdrop-blur px-5 pt-12 pb-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-1.5 text-gray-400 hover:text-gray-100 mb-4 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm">Back</span>
-        </button>
+        <div className="flex items-center justify-between mb-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-1.5 text-gray-400 hover:text-gray-100 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="text-sm">Back</span>
+          </button>
+          <OmnivaSymbol size={22} />
+        </div>
 
         <div className="flex items-center justify-between">
           <div>
